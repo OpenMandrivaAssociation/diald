@@ -1,6 +1,6 @@
 %define	name	diald
 %define	version	1.0
-%define	release	%mkrel 7
+%define	release	%mkrel 8
 
 Summary:	Daemon that provides on demand IP links via SLIP or PPP
 Name:	%{name}
@@ -16,9 +16,9 @@ Source3:	diald.filter
 #Patch0:	diald-Makefile.patch.bz2
 #Patch1:	diald-route.patch.bz2
 #Patch2:	diald-ppp.patch.bz2
-Patch3:		diald-c-files.patch.bz2
-Patch4:		diald-1.0.patch.bz2
-Patch5:		diald-1.0-fix-glibc2.4.patch.bz2
+Patch3:		diald-c-files.patch
+Patch4:		diald-1.0.patch
+Patch5:		diald-1.0-fix-glibc2.4.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	ppp
 Requires(post):	rpm-helper
@@ -65,30 +65,22 @@ install -m644 %{SOURCE3} -D $RPM_BUILD_ROOT%{_sysconfdir}/diald/diald.filter
 mkdir -p $RPM_BUILD_ROOT/var/cache/diald
 mknod -m0660 $RPM_BUILD_ROOT/var/cache/diald/diald.ctl p
 
+# for diald config
+
+mkdir -p %{buildroot}%{_sysconfdir}/modprobe.d
+cat > %{buildroot}%{_sysconfdir}/modprobe.d/%{name}.conf << EOF
+alias tap0 ethertap
+options tap0 -o tap0 unit=0
+EOF
+
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%pre
-if [ $1 = "1" ]; then # first installation
-# for diald config
-grep -q '^alias tap0' /etc/modules.conf  || {
-		echo "alias tap0 ethertap" >> /etc/modules.conf
-		echo "options tap0 -o tap0 unit=0" >> /etc/modules.conf
-}
-fi
 
 %post
 %_post_service diald
 
 %preun
 %_preun_service diald
-
-%postun
-if [ $1 = "0" ]; then # full removal
-# diald unload modules
-perl -ni -e 'print unless ( m!^.*tap0.*$! || /^\s*$/)' /etc/modules.conf
-fi
-
 
 %files
 %defattr (-,root,root)
@@ -98,6 +90,7 @@ fi
 %config(noreplace) %{_sysconfdir}/pam.d/*
 %dir %{_sysconfdir}/diald
 %config(noreplace) %{_sysconfdir}/diald/*
+%config(noreplace) %{_sysconfdir}/modprobe.d/%{name}.conf
 %{_bindir}/*
 %dir %{_libdir}/diald
 %{_libdir}/diald/*
