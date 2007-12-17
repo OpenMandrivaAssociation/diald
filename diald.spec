@@ -19,7 +19,6 @@ Source3:	diald.filter
 Patch3:		diald-c-files.patch
 Patch4:		diald-1.0.patch
 Patch5:		diald-1.0-fix-glibc2.4.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	ppp
 Requires(post):	rpm-helper
 Requires(preun):	rpm-helper
