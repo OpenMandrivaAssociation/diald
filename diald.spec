@@ -1,6 +1,6 @@
 %define	name	diald
 %define	version	1.0
-%define	release	%mkrel 10
+%define	release	%mkrel 11
 
 Summary:	Daemon that provides on demand IP links via SLIP or PPP
 Name:	%{name}
@@ -47,7 +47,7 @@ compiled, either into the kernel or as a module.
 #%patch1
 #%patch2
 %patch3 -p0
-%patch4 -p0 -b .mdk
+%patch4 -p1 -b .mdk
 %patch5 -p1 -b .glibc2.4
 
 %build
