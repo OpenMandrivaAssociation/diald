@@ -1,6 +1,6 @@
 %define	name	diald
 %define	version	1.0
-%define	release	%mkrel 12
+%define	release	%mkrel 13
 
 Summary:	Daemon that provides on demand IP links via SLIP or PPP
 Name:	%{name}
