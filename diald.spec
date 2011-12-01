@@ -56,14 +56,14 @@ compiled, either into the kernel or as a module.
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall_std
 
-install -m755 %{SOURCE1} -D $RPM_BUILD_ROOT%{_initrddir}/diald
-install -m644 %{SOURCE2} -D $RPM_BUILD_ROOT%{_sysconfdir}/diald/diald.conf
-install -m644 %{SOURCE3} -D $RPM_BUILD_ROOT%{_sysconfdir}/diald/diald.filter
-mkdir -p $RPM_BUILD_ROOT/var/cache/diald
-mknod -m0660 $RPM_BUILD_ROOT/var/cache/diald/diald.ctl p
+install -m755 %{SOURCE1} -D %{buildroot}%{_initrddir}/diald
+install -m644 %{SOURCE2} -D %{buildroot}%{_sysconfdir}/diald/diald.conf
+install -m644 %{SOURCE3} -D %{buildroot}%{_sysconfdir}/diald/diald.filter
+mkdir -p %{buildroot}/var/cache/diald
+mknod -m0660 %{buildroot}/var/cache/diald/diald.ctl p
 
 # for diald config
 
@@ -74,7 +74,7 @@ options tap0 -o tap0 unit=0
 EOF
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %post
 %_post_service diald
