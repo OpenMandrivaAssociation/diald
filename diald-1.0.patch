@@ -1,0 +1,56 @@
+diff -Naurp diald-1.0/Makefile.in diald-1.0.oden/Makefile.in
+--- diald-1.0/Makefile.in	2001-06-16 13:16:04.000000000 +0200
++++ diald-1.0.oden/Makefile.in	2008-12-20 17:50:05.000000000 +0100
+@@ -23,7 +23,7 @@ mandir          = @mandir@
+ 
+ CC              = @CC@
+ CFLAGS          = @CFLAGS@ @DEFS@ -I$(srcdir) \
+-			-DDIALD_CONFIG_FILE=\"@sysconfdir@/diald.conf\" \
++			-DDIALD_CONFIG_FILE=\"@sysconfdir@/diald/diald.conf\" \
+ 			-DDIALD_DEFS_FILE=\"@libdir@/diald/diald.defs\" \
+ 			-DRUN_PREFIX=\"@localstatedir@/run\"
+ INSTALL         = @INSTALL@
+@@ -51,21 +51,21 @@ install: diald
+ 	$(INSTALL) -d $(DESTDIR)$(bindir)
+ 	$(INSTALL) -m 0755 bin/dctrl $(DESTDIR)$(bindir)/dctrl
+ 	$(INSTALL) -d $(DESTDIR)$(sbindir)
+-	$(INSTALL) -s -o root -g bin diald $(DESTDIR)$(sbindir)/diald
++	$(INSTALL) -s diald $(DESTDIR)$(sbindir)/diald
+ 	$(INSTALL) -d $(DESTDIR)$(mandir)/man1 $(DESTDIR)$(mandir)/man5 \
+ 		$(DESTDIR)$(mandir)/man8
+-	$(INSTALL) -o root -g bin -m 0644 doc/diald.man $(DESTDIR)$(mandir)/man8/diald.8
+-	$(INSTALL) -o root -g bin -m 0644 doc/dctrl.man $(DESTDIR)$(mandir)/man1/dctrl.1
+-	$(INSTALL) -o root -g bin -m 0644 doc/diald-examples.man $(DESTDIR)$(mandir)/man5/diald-examples.5
+-	$(INSTALL) -o root -g bin -m 0644 doc/diald-control.man $(DESTDIR)$(mandir)/man5/diald-control.5
+-	$(INSTALL) -o root -g bin -m 0644 doc/diald-monitor.man $(DESTDIR)$(mandir)/man5/diald-monitor.5
++	$(INSTALL) -m 0644 doc/diald.man $(DESTDIR)$(mandir)/man8/diald.8
++	$(INSTALL) -m 0644 doc/dctrl.man $(DESTDIR)$(mandir)/man1/dctrl.1
++	$(INSTALL) -m 0644 doc/diald-examples.man $(DESTDIR)$(mandir)/man5/diald-examples.5
++	$(INSTALL) -m 0644 doc/diald-control.man $(DESTDIR)$(mandir)/man5/diald-control.5
++	$(INSTALL) -m 0644 doc/diald-monitor.man $(DESTDIR)$(mandir)/man5/diald-monitor.5
+ 	-mkdir -p $(DESTDIR)$(libdir)
+-	$(INSTALL) -o root -g bin lib/*.gif $(DESTDIR)$(libdir)
+-	$(INSTALL) -o root -g bin -m 0644 config/diald.defs $(DESTDIR)$(libdir)/diald.defs
+-	$(INSTALL) -o root -g bin -m 0644 config/standard.filter $(DESTDIR)$(libdir)/standard.filter
++	$(INSTALL) lib/*.gif $(DESTDIR)$(libdir)
++	$(INSTALL) -m 0644 config/diald.defs $(DESTDIR)$(libdir)/diald.defs
++	$(INSTALL) -m 0644 config/standard.filter $(DESTDIR)$(libdir)/standard.filter
+ 	$(INSTALL) -d -m 0755 $(DESTDIR)/etc/pam.d
+-	$(INSTALL) -o root -g root -m 0644 config/diald.pam $(DESTDIR)/$(sysconfdir)/pam.d/diald
+-	$(INSTALL) -o root -g bin bin/connect $(DESTDIR)$(libdir)/connect
++	$(INSTALL) -m 0644 config/diald.pam $(DESTDIR)/$(sysconfdir)/pam.d/diald
++	$(INSTALL) bin/connect $(DESTDIR)$(libdir)/connect
+ 
+ clean:
+ 	rm -f *.o diald
+diff -Naurp diald-1.0/diald.h diald-1.0.oden/diald.h
+--- diald-1.0/diald.h	2001-06-16 18:01:25.000000000 +0200
++++ diald-1.0.oden/diald.h	2008-12-20 17:50:05.000000000 +0100
+@@ -11,6 +11,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <stddef.h>
++#  include <time.h>
+ #if HAVE_UNISTD_H
+ #  include <unistd.h>
+ #endif
