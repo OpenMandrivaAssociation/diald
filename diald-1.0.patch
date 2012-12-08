@@ -15,7 +15,7 @@ diff -Naurp diald-1.0/Makefile.in diald-1.0.oden/Makefile.in
  	$(INSTALL) -m 0755 bin/dctrl $(DESTDIR)$(bindir)/dctrl
  	$(INSTALL) -d $(DESTDIR)$(sbindir)
 -	$(INSTALL) -s -o root -g bin diald $(DESTDIR)$(sbindir)/diald
-+	$(INSTALL) -s diald $(DESTDIR)$(sbindir)/diald
++	$(INSTALL) diald $(DESTDIR)$(sbindir)/diald
  	$(INSTALL) -d $(DESTDIR)$(mandir)/man1 $(DESTDIR)$(mandir)/man5 \
  		$(DESTDIR)$(mandir)/man8
 -	$(INSTALL) -o root -g bin -m 0644 doc/diald.man $(DESTDIR)$(mandir)/man8/diald.8
