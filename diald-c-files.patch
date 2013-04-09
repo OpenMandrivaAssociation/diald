@@ -1,5 +1,5 @@
---- firewall.c	Fri Feb 25 18:03:53 2000
-+++ firewall.c-florin	Wed Mar 28 14:37:57 2001
+--- ./firewall.c	Fri Feb 25 18:03:53 2000
++++ ./firewall.c-florin	Wed Mar 28 14:37:57 2001
 @@ -65,7 +65,7 @@
  #if 0
      mon_syslog(LOG_DEBUG,"slot def: %d %d %x %x %x",
