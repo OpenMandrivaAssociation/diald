@@ -1,0 +1,14 @@
+[Unit]
+Description=PPP/SLIP networking daemon
+Requires=rpcbind.service
+After=syslog.target network.target rpcbind.service 
+
+[Service]
+Type=forking
+RemainAfterExit=yes
+EnvironmentFile=/etc/sysconfig/network
+EnvironmentFile=/etc/diald/diald.conf
+ExecStart=/usr/sbin/diald
+
+[Install]
+WantedBy=multi-user.target

@@ -1,19 +1,19 @@
 Summary:	Daemon that provides on demand IP links via SLIP or PPP
 Name:		diald
 Version:	1.0
-Release:	25
-License:	GPLv2
-Group:		Networking/Other
+Release:	21
+License:	GPL
 Url:		http://diald.sourceforge.net
+Group:		Networking/Other
 Source0:	%{name}-%{version}.tar.bz2
-Source1:	diald.init
+Source1:	diald.service
 Source2:	diald.conf
 Source3:	diald.filter
 Patch3:		diald-c-files.patch
 Patch4:		diald-1.0.patch
 Patch5:		diald-1.0-fix-glibc2.4.patch
 Requires:	ppp
-Requires(post,preun):	rpm-helper
+Requires(post,preun):   rpm-helper
 
 %description
 Diald is a daemon that provides on demand IP links via SLIP or PPP. The
@@ -34,7 +34,9 @@ compiled, either into the kernel or as a module.
 
 %prep
 %setup -q
-%apply_patches
+%patch3 -p0
+%patch4 -p1 -b .mdk
+%patch5 -p1 -b .glibc2.4
 
 %build
 %configure2_5x	--localstatedir=/var
@@ -43,13 +45,14 @@ make
 %install
 %makeinstall_std
 
-install -m755 %{SOURCE1} -D %{buildroot}%{_initrddir}/diald
+install -m755 %{SOURCE1} -D %{buildroot}%{_unitdir}/diald.service
 install -m644 %{SOURCE2} -D %{buildroot}%{_sysconfdir}/diald/diald.conf
 install -m644 %{SOURCE3} -D %{buildroot}%{_sysconfdir}/diald/diald.filter
 mkdir -p %{buildroot}/var/cache/diald
 mknod -m0660 %{buildroot}/var/cache/diald/diald.ctl p
 
 # for diald config
+
 mkdir -p %{buildroot}%{_sysconfdir}/modprobe.d
 cat > %{buildroot}%{_sysconfdir}/modprobe.d/%{name}.conf << EOF
 alias tap0 ethertap
@@ -68,7 +71,7 @@ find %{buildroot} -perm 0744 -exec chmod 0644 '{}' \;
 %files
 %doc BUGS CHANGES LICENSE NOTES README*
 %doc THANKS TODO TODO.budget doc/diald-faq.txt setup contrib
-%{_initrddir}/diald
+%{_unitdir}/diald*
 %config(noreplace) %{_sysconfdir}/pam.d/*
 %dir %{_sysconfdir}/diald
 %config(noreplace) %{_sysconfdir}/diald/*
@@ -82,4 +85,5 @@ find %{buildroot} -perm 0744 -exec chmod 0644 '{}' \;
 %{_sbindir}/*
 %dir %{_var}/cache/diald
 %attr(660,root,root) %{_var}/cache/diald/diald.ctl
+
 
