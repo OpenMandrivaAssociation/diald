@@ -1,7 +1,7 @@
 Summary:	Daemon that provides on demand IP links via SLIP or PPP
 Name:		diald
 Version:	1.0
-Release:	21
+Release:	22
 License:	GPL
 Url:		http://diald.sourceforge.net
 Group:		Networking/Other
@@ -63,10 +63,13 @@ EOF
 find %{buildroot} -perm 0744 -exec chmod 0644 '{}' \;
 
 %post
-%_post_service diald
+%systemd_post %{name}.service
 
 %preun
-%_preun_service diald
+%systemd_preun %{name}.service
+
+%postun
+%systemd_postun_with_restart %{name}.service
 
 %files
 %doc BUGS CHANGES LICENSE NOTES README*
