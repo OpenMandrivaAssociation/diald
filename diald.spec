@@ -1,7 +1,7 @@
 Summary:	Daemon that provides on demand IP links via SLIP or PPP
 Name:		diald
 Version:	1.0
-Release:	27
+Release:	28
 License:	GPL
 Url:		http://diald.sourceforge.net
 Group:		Networking/Other
