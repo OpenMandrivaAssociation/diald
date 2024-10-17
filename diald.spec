@@ -3,7 +3,7 @@ Name:		diald
 Version:	1.0
 Release:	29
 License:	GPL
-Url:		http://diald.sourceforge.net
+Url:		https://diald.sourceforge.net
 Group:		Networking/Other
 Source0:	%{name}-%{version}.tar.bz2
 Source1:	diald.service
