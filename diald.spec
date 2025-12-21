@@ -15,6 +15,11 @@ Patch5:		diald-1.0-fix-glibc2.4.patch
 Requires:	ppp
 Requires(post,preun):   rpm-helper
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 %description
 Diald is a daemon that provides on demand IP links via SLIP or PPP. The
 purpose of diald is to make it transparently appear that you have a
